@@ -3,8 +3,6 @@
   file:
     path: /etc/gitlab-runner/config.toml
     state: touch
-    modification_time: preserve
-    access_time: preserve
 
 - name: Set concurrent option
   lineinfile:

@@ -9,6 +9,16 @@
   check_mode: no
   notify: restart_gitlab_runner
 
+- name: Set environment option
+  lineinfile:
+    dest: "{{ temp_runner_config.path }}"
+    regexp: '^(\s*)environment ='
+    line: '\1environment = {{ gitlab_runner.env_vars|default([]) | to_json }}'
+    state: present
+    backrefs: yes
+  check_mode: no
+  notify: restart_gitlab_runner
+
 - name: Set coordinator URL
   lineinfile:
     dest: "{{ temp_runner_config.path }}"

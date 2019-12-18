@@ -494,6 +494,17 @@
   - restart_gitlab_runner
   - restart_gitlab_runner_macos
 
+- name: Set pre_clone_script option
+  lineinfile:
+    dest: "{{ temp_runner_config.path }}"
+    regexp: '^\s*pre_clone_script ='
+    line: '  pre_clone_script = {{ gitlab_runner.pre_clone_script|default("") | to_json }}'
+    state: "{{ 'present' if gitlab_runner.pre_clone_script is defined else 'absent' }}"
+    insertafter: '^\s*executor ='
+    backrefs: no
+  check_mode: no
+  notify: restart_gitlab_runner
+
 - name: Ensure directory permissions
   file:
     dest: "{{ item }}"
